@@ -56,9 +56,9 @@
 
     <p>{{infos_detail.hd_type.text}}</p>
     <select class="form-control" id="type">
-      <option>辣鸡</option>
-      <option>很垃圾</option>
-      <option>灰常辣鸡</option>
+      <option value="1">辣鸡</option>
+      <option value="2">很垃圾</option>
+      <option value="3">灰常辣鸡</option>
     </select>
 
     <div class="submit-container">
@@ -66,6 +66,16 @@
         提交
       </button>
     </div>
+
+    <!--<form id= "uploadForm">-->
+      <!--<p>上传文件： <input type="file" name="file"/></p>-->
+      <!--<input type="button" value="上传" @click="uploadImg" />-->
+    <!--</form>-->
+
+    <form action="/backend/index/upload" enctype="multipart/form-data" method="post">
+      <input type="file" name="image" />
+      <input type="submit" value="Submit"/>
+    </form>
 
   </section>
 </template>
@@ -88,6 +98,12 @@
   *     hd_compere
   * */
   export default {
+    ready () {
+//      this.$http.get('book.json', function(data) {
+//      }).error(function(data, status, request) {
+//      });
+      /* vue-resource 用来发请求 请求数据 */
+    },
     data () {
       return {
         infos: {
@@ -136,6 +152,12 @@
         data.hd_compere.val = figure;
 
         console.log(JSON.parse(JSON.stringify(data)));
+
+      },
+      uploadImg () {
+        let formdata = new FormData(document.getElementById("uploadForm"));
+        console.log(formdata);
+        this.$http.post('/backend/index/upload', formdata);
 
       }
     }
