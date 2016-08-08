@@ -10,6 +10,9 @@
   .input-group {
     margin-bottom: 10px;
   }
+  .new-image {
+    margin-bottom: 50px;
+  }
 </style>
 
 <template>
@@ -67,7 +70,7 @@
       </nav>
     </div>
     <div class="new-image">
-      <p class="bg-info title">上传新的图片</p>
+      <p class="bg-success title">上传新的图片</p>
 
       <div class="input-group" v-for="item in imgInfo">
         <span class="input-group-addon">{{item.text}}</span>
