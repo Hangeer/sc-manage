@@ -126,7 +126,6 @@
           emulateJSON: true
         })
         .then((res) => {
-          console.log("Query sucess");
           this.getImgList = res.data.data.data;
           this.totalPage = res.data.data.totalPages;
         }, (res) => {
@@ -158,19 +157,23 @@
           pic_name: item.pic_name,
           pic_url: item.pic_url
         }
-        this.$http.post('http://localhost:8360/backend/index/updatesingleimg', data, {
-          emulateJSON: true
-        })
-        .then((res) => {
-          console.log("sucess");
-          
-          alert("修改成功");
-          this.$options.methods.getImgList.bind(this)();
-          //  数据操作搞完了需要刷新
+        if (data.album_id && data.pic_name && data.pic_url) {
+          this.$http.post('http://localhost:8360/backend/index/updatesingleimg', data, {
+            emulateJSON: true
+          })
+          .then((res) => {
+            console.log("sucess");
+            
+            alert("修改成功");
+            this.$options.methods.getImgList.bind(this)();
+            //  数据操作搞完了需要刷新
 
-        }, (res) => {
-          console.log(res);
-        });
+          }, (res) => {
+            console.log(res);
+          });
+        } else {
+          alert("信息填写不能空");
+        }
       },
       testSubmit () {
         let fd = new FormData(document.getElementById("form-cont"));
@@ -193,17 +196,18 @@
         })
         .then((res) => {
           if (res.status == 200) {
-            console.log("提交数据成功");
-            
-            alert("添加成功");
             this.$options.methods.getImgList.bind(this)();
-
-            this.imgInfo = {
+            if (!!res.data.data) {
+              alert("提交数据成功");
+              this.imgInfo = {
                 albumId: {text: "相册ID", val: ""},
                 pic_name: {text: "照片名称", val: ""},
                 pic_url: {text: "照片url", val: ""}
-            };
-            //  数据提交成功之后 可以继续添加 然后先清空上传表单的值
+              };
+              //  数据提交成功之后 可以继续添加 然后先清空上传表单的值
+            } else {
+              alert("提交数据失败 原因可能是没有填写正确的相册 id");
+            }
           }
         }, (res) => {
           console.log(res);
