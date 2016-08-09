@@ -7,7 +7,9 @@
     padding: 0 10px;
     font-size: 20px;
   }
-
+  .right {
+    float: right;
+  }
 </style>
 
 <template>
@@ -18,46 +20,117 @@
       <tr>
         <th>活动 ID</th>
         <th>名称</th>
+        <th>点赞数</th>
+        <th>活动单位</th>
         <th>操作</th>
       </tr>
       </thead>
-      <tbody>
+      <tbody v-for="item in activityList">
       <tr>
-        <th scope="row">1</th>
+        <th scope="row">{{item.id}}</th>
         <td>
-          【活动】今晚小树林 约吗
+            {{item.hd_title}}
         </td>
         <td>
-          <button type="button" class="btn btn-danger right">删除</button>
-          <button type="button" class="btn btn-info right">
-            <a v-link="{path: '/app/activity/detail'}">
-              编辑
-            </a>
+            {{item.hd_likes}}
+        </td>
+        <td>
+            {{item.hd_unit}}
+        </td>
+        <td>
+          <button type="button" class="btn btn-danger">
+            删除
+          </button>
+          <button type="button" class="btn btn-info">
+            编辑
           </button>
         </td>
       </tr>
       </tbody>
     </table>
-    <div class="wrapper">
+    <div class="wrapper" style="margin: 50px 0;">
       <nav>
-        <ul class="pager">
-          <li class="previous">
-            <a href="#"><span aria-hidden="true">&larr;</span> 上一页</a>
+        <ul class="pager" style="overflow: hidden">
+          <li class="previous" @click="prevPage">
+            <span aria-hidden="true">&larr; 上一页</span>
           </li>
-          <li class="next">
-            <a href="#">下一页 <span aria-hidden="true">&rarr;</span></a>
+          <li class="next" @click="nextPage">
+            <span aria-hidden="true">下一页 &rarr; </span>
           </li>
         </ul>
+        <div style="width: 300px; margin: 0 auto">
+          <span>当前第</span>
+          <input type="text" class="form-control" style="width: 50px; display: inline-block; text-align: center" v-model="currentPage">
+          <span>页，一共 {{totalPage}} 页</span>
+          <button class="btn btn-default" type="button" @click="gotoPage">Go!</button>
+        </div>
       </nav>
     </div>
+
+    <div style="overflow: hidden">
+      <button type="button" class="btn btn-success right">
+        添加新的活动
+      </button>
+    </div>
+    
+    <detail-component v-show="isDetailShow" :modify-id="modifyActivityId"></detail-component>
   </section>
 </template>
 
 <script>
+  import DetailComponent from './detail';
+
   export default {
+    ready () {
+      this.$options.methods.getActivityList.bind(this)();
+    },
+    components: {
+      DetailComponent
+    },
     data () {
       return {
+        isDetailShow: true,
+        currentPage: 1,
+        totalPage: 1,
+        activityList: [],
+        modifyActivityId: 1
+      }
+    },
+    methods: {
+      getActivityList () {
+        let data = {
+          currentPage: this.currentPage
+        };
+        let url = `http://localhost:8360/backend/index/getactivitylist`;
 
+        this.$http.post(url, data, {
+          emulateJSON: true
+        })
+        .then((res) => {
+          this.activityList = res.data.data.data;
+          this.totalPage = res.data.data.totalPages;
+        }, (res) => {
+          console.log(`获取活动列表失败`);
+        });
+      },
+      prevPage () {
+        if (this.currentPage == 1) {
+          alert("已经是第一页");
+        } else {
+          this.currentPage--;
+          this.$options.methods.getActivityList.bind(this)();          
+        }
+      },
+      nextPage () {      
+        if (this.currentPage == this.totalPage) {
+          alert("已经是最后一页");
+        } else {
+          this.currentPage++;
+          this.$options.methods.getActivityList.bind(this)();
+        }
+      },
+      gotoPage () {      
+        this.currentPage >=1 && this.currentPage <= this.totalPage ? this.$options.methods.getActivityList.bind(this)() : alert("无效的页数");
       }
     }
   }

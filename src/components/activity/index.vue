@@ -5,6 +5,10 @@
   .btn-comtainer button {
     margin-right: 50px;
   }
+  a {
+    display: inline-block;
+    color: #fff;
+  }
 </style>
 
 <template>

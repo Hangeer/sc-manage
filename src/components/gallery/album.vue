@@ -112,9 +112,9 @@
           emulateJSON: true
         })
         .then((res) => {
-          console.log("Query sucess");
+          // console.log("Query sucess");
           this.getAlbumList = res.data.data.data;
-          console.log(this.getAlbumList);
+          // console.log(this.getAlbumList);
           this.totalPage = res.data.data.totalPages;
         }, (res) => {
           console.log("failed");
