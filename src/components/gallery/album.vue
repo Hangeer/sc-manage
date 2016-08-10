@@ -13,83 +13,114 @@
   .new-image {
     margin-bottom: 50px;
   }
+  .wrapper {
+    margin: 50px 0;
+  }
+  .pager {
+    overflow: hidden;
+  }
+  .current-page {
+    width: 50px; 
+    display: inline-block; 
+    text-align: center;
+  }
 </style>
 
 <template>
   <section class="album">
     <p class="bg-info title">相册管理界面</p>
+    <!-- 相册管理界面 title -->
+    
     <table class="table table-striped">
       <thead>
       <tr>
-        <th>相册 ID</th>
-        <th>名称</th>
-        <th>所含图片数量</th>
-        <th>点赞数</th>
-        <th>封面图地址</th>
-        <th>操作</th>
+        <th> 相册 ID </th>
+        <th> 名称 </th>
+        <th> 所含图片数量 </th>
+        <th> 点赞数 </th>
+        <th> 封面图地址 </th>
+        <th> 操作 </th>
       </tr>
       </thead>
-      <tbody v-for="item in getAlbumList">
+      <tbody v-for="item in albumList">
       <tr>
-        <th scope="row">{{item.id}}</th>
+        <th scope="row"> {{item.id}} </th>
         <td>
-          <input type="text" class="form-control" placeholder="相册名称" v-model="item.album_name">
+          <input type="text" 
+                 class="form-control" 
+                 placeholder="相册名称" 
+                 v-model="item.album_name">
         </td>
+        <td> {{item.album_pages}} </td>
+        <td> {{item.album_likes}} </td>
         <td>
-          {{item.album_pages}}
-        </td>
-        <td>
-          {{item.album_likes}}
-        </td>
-        <td>
-          <input type="text" class="form-control" placeholder="封面链接" v-model="item.album_cover">
+          <input type="text" 
+                 class="form-control" 
+                 placeholder="封面链接" 
+                 v-model="item.album_cover">
         </td>
         <td>
           <button type="button" 
                   class="btn btn-danger right" 
                   @click="deleteSingle(item.id)">
-          删除</button>
+            删除
+          </button>
           <button type="button" 
                   class="btn btn-info right" 
                   @click="updateSingle(item)">
-          更新</button>
+            更新
+          </button>
         </td>
       </tr>
       </tbody>
     </table>
+    <!-- 当前页面相册列表 -->
     
-    <div class="wrapper" style="margin: 50px 0;">
+    <div class="wrapper">
       <nav>
-        <ul class="pager" style="overflow: hidden">
-          <li class="previous" @click="prevPage">
-            <span aria-hidden="true">&larr; 上一页</span>
+        <ul class="pager">
+          <li class="previous" 
+              @click="prevPage">
+            <span aria-hidden="true"> &larr; 上一页 </span>
           </li>
           <li class="next">
-            <span aria-hidden="true" @click="nextPage">下一页 &rarr; </span>
+            <span aria-hidden="true" 
+                  @click="nextPage"> 下一页 &rarr; </span>
           </li>
         </ul>
         <div style="width: 300px; margin: 0 auto">
           <span>当前第</span>
-          <input type="text" class="form-control" style="width: 50px; display: inline-block; text-align: center" v-model="currentPage">
+          <input type="text" 
+                 class="form-control current-page" 
+                 v-model="currentPage">
           <span>页，一共 {{totalPage}} 页</span>
-          <button class="btn btn-default" type="button" @click="gotoPage">Go!</button>
+          <button class="btn btn-default" 
+                  type="button" 
+                  @click="gotoPage">
+            Go!
+          </button>
         </div>
       </nav>
     </div>
-    
+    <!-- 分页器 -->
+
     <div class="new-image">
       <p class="bg-success title">创建新的相册</p>
 
       <div class="input-group" v-for="item in albumInfo">
-        <span class="input-group-addon">{{item.text}}</span>
-        <input type="text" class="form-control" v-model="item.val">
+        <span class="input-group-addon"> {{item.text}} </span>
+        <input type="text" 
+               class="form-control" 
+               v-model="item.val">
       </div>
-
       <button type="button" 
               class="btn btn-warning right" 
               @click="sendAlbum">
-      创建相册</button>
+        创建相册
+      </button>
     </div>
+    <!-- 创建新的相册 -->
+
   </section>
 </template>
 
@@ -97,101 +128,114 @@
   export default {
     ready () {
       this.$options.methods.getAlbumList.bind(this)();
+      
+      /* 
+      *   页面刷新时候的时候调用 
+      *   getAlbumList 方法   
+      *   更新照片列表
+      */
     },
     data () {
       return {
         currentPage: 1,
         totalPage: 1,
-        getAlbumList: [],
+        albumList: [],
         albumInfo: {
           album_name: {text: "相册名称", val: ""},
           album_cover: {text: "封面图地址", val: ""}
         }
+        
+        /*
+        *   @params:
+        *     { currentPage }: 当前所在页数
+        *     { totalPage }: 总页数
+        *     { albumList }: 获取的当前页数相册列表
+        *     { imgInfo }: 待上传的照片信息
+        */
       }
     },
     methods: {
-      refresh () {
-        this.$options.methods.getAlbumList.bind(this)();  
-      },
       getAlbumList () {
-        let data = {
-          currentPage: this.currentPage
-        }
-        this.$http.post('http://localhost:8360/backend/index/getalbum', data, {
-          emulateJSON: true
-        })
+        let data = { currentPage: this.currentPage },
+            url = `http://localhost:8360/backend/index/getalbum`;
+
+        this.$http.post(url, data, { emulateJSON: true })
         .then((res) => {
-          // console.log("Query sucess");
-          this.getAlbumList = res.data.data.data;
-          // console.log(this.getAlbumList);
+          console.log(`获取相册列表成功`);
+          this.albumList = res.data.data.data;
           this.totalPage = res.data.data.totalPages;
         }, (res) => {
-          console.log("failed");
+          console.log(`获取相册列表失败`);
         });
+
+        /*
+        *   getAlbumList:
+        *     根据页数 请求相册列表
+        */
       },
       sendAlbum () {
         let data = {
           album_name: this.albumInfo.album_name.val,
           album_cover: this.albumInfo.album_cover.val
         };
-        //  需要的数据重新封装
-        this.$http.post('http://localhost:8360/backend/index/postalbum', data, {
-          emulateJSON: true
-        })
+        let url = `http://localhost:8360/backend/index/postalbum`;
+
+        this.$http.post(url, data, { emulateJSON: true })
         .then((res) => {
           if (res.status == 200) {
-            console.log("提交数据成功");
-            
-            alert("创建成功");
+            console.log("创建相册成功");
             this.$options.methods.getAlbumList.bind(this)();  
-
             this.albumInfo = {
               album_name: {text: "相册名称", val: ""},
               album_cover: {text: "封面图地址", val: ""}
             };
-            //  数据提交成功之后 可以继续添加 然后先清空上传表单的值
           }
         }, (res) => {
-          console.log(res);
+          console.log("创建相册失败");
         });
+
+        /*
+        *   sendAlbum:
+        *     新建相册
+        */
       },
       deleteSingle (album_id) {
-        let data = {
-          id: album_id
-        }
-        this.$http.post('http://localhost:8360/backend/index/deletesinglealbum', data, {
-          emulateJSON: true
-        })
-        .then((res) => {
-          console.log("sucess");
-          
-          alert("删除成功");
-          this.$options.methods.getAlbumList.bind(this)();
+        let data = { id: album_id },
+            url = `http://localhost:8360/backend/index/deletesinglealbum`;
 
-          //  数据操作搞完了需要刷新
+        this.$http.post(url, data, { emulateJSON: true })
+        .then((res) => {
+          console.log("删除相册成功");
+          this.$options.methods.getAlbumList.bind(this)();
         }, (res) => {
-          console.log(res);
+          console.log("删除相册失败");
         });
+
+        /*
+        *   deleteSingle
+        *     删除相册
+        */
       },
       updateSingle (item) {
         let data = {
           id: item.id,
           album_name: item.album_name,
           album_cover: item.album_cover,
-        }
-        this.$http.post('http://localhost:8360/backend/index/updatesinglealbum', data, {
-          emulateJSON: true
-        })
-        .then((res) => {
-          console.log("sucess");
-          
-          alert("修改成功");
-          this.$options.methods.getAlbumList.bind(this)();
-          //  数据操作搞完了需要刷新
+        };
+        let url = `http://localhost:8360/backend/index/updatesinglealbum`;
 
+        this.$http.post(url, data, { emulateJSON: true })
+        .then((res) => {
+          console.log(`更新相册信息成功`);
+          this.$options.methods.getAlbumList.bind(this)();
         }, (res) => {
-          console.log(res);
+          console.log(`更新相册信息失败`);
         });
+
+        /*
+        *   updateSingle
+        *     更新相册信息
+        */
       },
       prevPage () {
         if (this.currentPage == 1) {
@@ -210,7 +254,9 @@
         }
       },
       gotoPage () {      
-        this.currentPage >=1 && this.currentPage <= this.totalPage ? this.$options.methods.getAlbumList.bind(this)() : alert("无效的页数");
+        this.currentPage >=1 && this.currentPage <= this.totalPage 
+        ? this.$options.methods.getAlbumList.bind(this)() 
+        : alert("无效的页数");
       }
     }
   }

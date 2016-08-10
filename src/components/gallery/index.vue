@@ -2,7 +2,6 @@
   .gallery-container {
     padding: 0 50px;
   }
-
   .btn-comtainer button {
     margin-right: 50px;
   }

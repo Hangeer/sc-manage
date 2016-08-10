@@ -24,46 +24,62 @@
 
 <template>
   <section class="album">
-    <p class="bg-success title">活动内容</p>
+    <p class="bg-success title"> 活动内容 </p>
 
     <div class="input-group">
-      <span class="input-group-addon">活动标题</span>
-      <input type="text" class="form-control" v-model="currentActivity.hd_title">
+      <span class="input-group-addon"> 活动标题 </span>
+      <input type="text" 
+             class="form-control" 
+             v-model="currentActivity.hd_title">
     </div>
 
     <div class="input-group">
-      <span class="input-group-addon">封面图链接</span>
-      <input type="text" class="form-control" v-model="currentActivity.hd_cover">
+      <span class="input-group-addon"> 封面图链接 </span>
+      <input type="text" 
+             class="form-control" 
+             v-model="currentActivity.hd_cover">
     </div>
 
     <div class="input-group">
-      <span class="input-group-addon">活动地点</span>
-      <input type="text" class="form-control" v-model="currentActivity.hd_place">
+      <span class="input-group-addon"> 活动地点 </span>
+      <input type="text" 
+             class="form-control" 
+             v-model="currentActivity.hd_place">
     </div>
 
     <div class="input-group">
-      <span class="input-group-addon">活动时间</span>
-      <input type="text" class="form-control" v-model="currentActivity.hd_time">
+      <span class="input-group-addon"> 活动时间 </span>
+      <input type="text" 
+             class="form-control" 
+             v-model="currentActivity.hd_time">
     </div>
 
     <div class="input-group">
-      <span class="input-group-addon">抢票时间</span>
-      <input type="text" class="form-control" v-model="currentActivity.hd_getTicket_time">
+      <span class="input-group-addon"> 抢票时间 </span>
+      <input type="text" 
+             class="form-control" 
+             v-model="currentActivity.hd_getTicket_time">
     </div>
 
     <div class="input-group">
-      <span class="input-group-addon">抢票地点</span>
-      <input type="text" class="form-control" v-model="currentActivity.hd_getTicket_place">
+      <span class="input-group-addon"> 抢票地点 </span>
+      <input type="text" 
+             class="form-control" 
+             v-model="currentActivity.hd_getTicket_place">
     </div>
 
     <div class="input-group">
-      <span class="input-group-addon">主办单位</span>
-      <input type="text" class="form-control" v-model="currentActivity.hd_unit">
+      <span class="input-group-addon"> 主办单位 </span>
+      <input type="text" 
+             class="form-control" 
+             v-model="currentActivity.hd_unit">
     </div>
 
     <div class="input-group">
-      <span class="input-group-addon">培训时间</span>
-      <input type="text" class="form-control" v-model="currentActivity.hd_peixun">
+      <span class="input-group-addon"> 培训时间 </span>
+      <input type="text" 
+             class="form-control" 
+             v-model="currentActivity.hd_peixun">
     </div>
 
     <!-- 
@@ -73,38 +89,44 @@
     -->
 
     <section>
-      <h4>活动详情</h4>
-      <p class="editor" contenteditable="true" id="editor-article">
+      <h4> 活动详情 </h4>
+      <p class="editor" 
+         contenteditable="true" 
+         id="editor-article">
         {{currentActivity.hd_detail}}
       </p>
     </section>
 
     <section>
-      <h4>演讲人详情</h4>
-      <p class="editor" contenteditable="true" id="editor-figure">
+      <h4> 演讲人详情 </h4>
+      <p class="editor" 
+         contenteditable="true" 
+         id="editor-figure">
         {{currentActivity.hd_compere}}
       </p>
     </section>
 
-    <p>活动状态</p>
+    <p> 活动状态 </p>
     <select class="form-control" id="status">
-      <option value="1">未开始</option>
-      <option value="2">进行中</option>
-      <option value="3">已完成</option>
+      <option value="1"> 未开始 </option>
+      <option value="2"> 进行中 </option>
+      <option value="3"> 已完成 </option>
     </select>
 
-    <p>活动类型</p>
+    <p> 活动类型 </p>
     <select class="form-control" id="type">
-      <option value="1">辣鸡</option>
-      <option value="2">很垃圾</option>
-      <option value="3">灰常辣鸡</option>
+      <option value="1"> 辣鸡 </option>
+      <option value="2"> 很垃圾 </option>
+      <option value="3"> 灰常辣鸡 </option>
     </select>
 
     <div class="submit-container">
-      <button type="button" class="btn btn-warning" @click="submitActivity">
+      <button type="button" 
+              class="btn btn-warning" 
+              @click="submitActivity">
         提交
       </button>
-      <p>提示：提交之后点上方 关闭列表 按钮关闭此列表</p>
+      <p> 提示：提交之后点上方 关闭列表 按钮关闭此列表 </p>
     </div>
 
   </section>
