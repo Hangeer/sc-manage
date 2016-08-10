@@ -180,12 +180,12 @@
 
         this.$http.post(url, data, {
             emulateJSON: true
-          })
-          .then((res) => {
-            alert("提交成功");
-          }, (res) => {
-            alert("提交失败");
-          });
+        })
+        .then((res) => {
+          alert("提交成功");
+        }, (res) => {
+          alert("提交失败");
+        });
       }
     }
   }

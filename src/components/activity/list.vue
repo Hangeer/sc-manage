@@ -48,6 +48,7 @@
       </tr>
       </tbody>
     </table>
+    
     <div class="wrapper" style="margin: 50px 0;">
       <nav>
         <ul class="pager" style="overflow: hidden">

@@ -45,12 +45,19 @@
           <input type="text" class="form-control" placeholder="封面链接" v-model="item.album_cover">
         </td>
         <td>
-          <button type="button" class="btn btn-danger right" @click="deleteSingle(item.id)">删除</button>
-          <button type="button" class="btn btn-info right" @click="updateSingle(item)">更新</button>
+          <button type="button" 
+                  class="btn btn-danger right" 
+                  @click="deleteSingle(item.id)">
+          删除</button>
+          <button type="button" 
+                  class="btn btn-info right" 
+                  @click="updateSingle(item)">
+          更新</button>
         </td>
       </tr>
       </tbody>
     </table>
+    
     <div class="wrapper" style="margin: 50px 0;">
       <nav>
         <ul class="pager" style="overflow: hidden">
@@ -69,17 +76,19 @@
         </div>
       </nav>
     </div>
+    
     <div class="new-image">
       <p class="bg-success title">创建新的相册</p>
 
       <div class="input-group" v-for="item in albumInfo">
         <span class="input-group-addon">{{item.text}}</span>
         <input type="text" class="form-control" v-model="item.val">
-        <!--<span class="input-group-addon">{{item.val}}</span>-->
       </div>
-      <!--上传图片组件-->
 
-      <button type="button" class="btn btn-warning right" @click="sendAlbum">创建相册</button>
+      <button type="button" 
+              class="btn btn-warning right" 
+              @click="sendAlbum">
+      创建相册</button>
     </div>
   </section>
 </template>
