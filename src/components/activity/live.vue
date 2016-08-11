@@ -13,6 +13,17 @@
   .new-live {
     margin-bottom: 50px;
   }
+  .wrapper{
+    margin: 50px 0;
+  }
+  .pager {
+    overflow: hidden;
+  }
+  .current-page {
+    width: 50px; 
+    display: inline-block; 
+    text-align: center;
+  }
 </style>
 
 <template>
@@ -32,46 +43,56 @@
       <tr>
         <th scope="row">{{item.id}}</th>
         <td>
-          <input type="text" class="form-control" placeholder="消息内容" v-model="item.message">
+          <input type="text" 
+                 class="form-control" 
+                 placeholder="消息内容" 
+                 v-model="item.message">
         </td>
         <td>
-          <input type="text" class="form-control" placeholder="图片链接" v-model="item.img">
+          <input type="text" 
+                 class="form-control" 
+                 placeholder="图片链接" 
+                 v-model="item.img">
         </td>
         <td>
           <button type="button" 
                   class="btn btn-danger" 
                   @click="deleteLive(item)">
-          删除</button>
+            删除
+          </button>
           <button type="button" 
                   class="btn btn-info" 
                   @click="updateLive(item)">
-          更新</button>
+            更新
+          </button>
         </td>
       </tr>
       </tbody>
     </table>
     
-    <div class="wrapper" style="margin: 50px 0;">
+    <div class="wrapper">
       <nav>
-        <ul class="pager" style="overflow: hidden">
-          <li class="previous" @click="prevPage">
+        <ul class="pager">
+          <li class="previous" 
+              @click="prevPage">
             <span aria-hidden="true">&larr; 上一页</span>
           </li>
-          <li class="next" @click="nextPage">
+          <li class="next" 
+              @click="nextPage">
             <span aria-hidden="true">下一页 &rarr; </span>
           </li>
         </ul>
         <div style="width: 300px; margin: 0 auto">
           <span>当前第</span>
           <input type="text" 
-                 class="form-control" 
-                 style="width: 50px; display: inline-block; text-align: center" 
+                 class="form-control current-page"  
                  v-model="currentPage">
           <span>页，一共 {{totalPage}} 页</span>
           <button class="btn btn-default" 
                   type="button" 
                   @click="gotoPage">
-          Go!</button>
+            Go!
+          </button>
         </div>
       </nav>
     </div>
@@ -120,9 +141,9 @@
         .then((res) => {
           this.liveList = res.data.data.data;
           this.totalPage = res.data.data.totalPages;
-          alert(`获取列表成功`);
+          console.log(`获取列表成功`);
         }, (res) => {
-          alert(`获取列表失败`);
+          console.log(`获取列表失败`);
         });
       },
       postLive () {
@@ -136,14 +157,14 @@
           emulateJSON: true
         })
         .then((res) => {
-          alert(`发送直播成功`);
+          console.log(`发送直播成功`);
           this.liveInfo = {
             message: {text: "消息内容", val: ""},
             img: {text: "配图地址", val: ""}
           }
           this.$options.methods.getLiveList.bind(this)();
         }, (res) => {
-          alert(`发送直播失败`);
+          console.log(`发送直播失败`);
         });
       },
       deleteLive (item) {
@@ -155,10 +176,10 @@
           emulateJSON: true
         })
         .then((res) => {
-          alert(`删除成功`);
+          console.log(`删除成功`);
           this.$options.methods.getLiveList.bind(this)();
         }, (res) => {
-          alert(`删除失败`);
+          console.log(`删除失败`);
         });
       },
       updateLive (item) {
@@ -172,15 +193,15 @@
           emulateJSON: true
         })
         .then((res) => {
-          alert(`更新成功`);
+          console.log(`更新成功`);
           this.$options.methods.getLiveList.bind(this)();
         }, (res) => {
-          alert(`更新失败`);
+          console.log(`更新失败`);
         });
       },
       prevPage () {
         if (this.currentPage == 1) {
-          alert("已经是第一页");
+          console.log("已经是第一页");
         } else {
           this.currentPage--;
           this.$options.methods.getLiveList.bind(this)();          
@@ -188,7 +209,7 @@
       },
       nextPage () {      
         if (this.currentPage == this.totalPage) {
-          alert("已经是最后一页");
+          console.log("已经是最后一页");
         } else {
           this.currentPage++;
           this.$options.methods.getLiveList.bind(this)();
@@ -197,7 +218,7 @@
       gotoPage () {      
         this.currentPage >=1 && this.currentPage <= this.totalPage 
         ? this.$options.methods.getLiveList.bind(this)() 
-        : alert("无效的页数");
+        : console.log("无效的页数");
       }
     }
   }

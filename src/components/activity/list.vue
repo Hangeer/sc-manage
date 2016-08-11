@@ -146,6 +146,7 @@
           id: num
         };
         let url = `http://localhost:8360/backend/index/deleteactivity`;
+        
         this.$http.post(url, data, {
           emulateJSON: true
         })

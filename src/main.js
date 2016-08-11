@@ -6,14 +6,17 @@ import Login from './components/login/index'
 import App from './App'
 
 import gallery from './components/gallery/index'
-  import gallery_album from './components/gallery/album'
-  import gallery_image from './components/gallery/image'
+import gallery_album from './components/gallery/album'
+import gallery_image from './components/gallery/image'
 import activity from './components/activity/index'
-  import activity_list from './components/activity/list'
-  import activity_detail from './components/activity/detail'
-  import activity_live from './components/activity/live'
+import activity_list from './components/activity/list'
+import activity_detail from './components/activity/detail'
+import activity_live from './components/activity/live'
 import sayings from './components/sayings/index'
+import sayings_list from './components/sayings/list'
 import download from './components/download/index'
+import download_list from './components/download/list'
+import download_upload from './components/download/upload'
 
 
 Vue.config.debug = true;
@@ -57,10 +60,23 @@ router.map({
         }
       },
       '/sayings': {
-        component: sayings
+        component: sayings,
+        subRoutes: {
+          '/list': {
+            component: sayings_list
+          }
+        }
       },
       '/download': {
-        component: download
+        component: download,
+        subRoutes: {
+          '/list': {
+            component: download_list
+          },
+          '/upload': {
+            component: download_upload
+          }
+        }
       }
     }
   }
