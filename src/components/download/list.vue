@@ -136,8 +136,10 @@
           id: item.id,
           file_title: item.file_title,
           file_url: item.file_url
-        },
-            url = `http://localhost:8360/backend/index/updatefile`;
+        };
+        let url = `http://localhost:8360/backend/index/updatefile`;
+
+        console.log(data);
 
         this.$http.post(url, data, { emulateJSON: true })
         .then((res) => {

@@ -141,7 +141,21 @@
 
       <div class="input-group">
         <p>已上传的图片列表</p>
-        <div v-for="item in imgUploadSucList"> {{item}} </div>
+
+        <table class="table table-striped">
+          <thead>
+          <tr>
+            <th>图片本地名称</th>
+            <th>照片 url</th>
+          </tr>
+          </thead>
+          <tbody v-for="item in imgUploadSucList">
+            <tr>
+              <td>{{item.prevName}}</td>
+              <td>{{item.currName}}</td>
+            </tr>
+          </tbody>
+        </table>
       </div>
 
       <button type="button" 
@@ -249,12 +263,18 @@
       },
       testSubmit () {
         let fd = new FormData(document.getElementById("form-cont")),
-            url = `http://localhost:8360/backend/index/upload`;
+            url = `http://localhost:8360/backend/index/uploadimg`;
 
         this.$http.post(url, fd)
         .then((res) => {
           console.log(`上传图片成功`);
-          this.imgUploadSucList.push(res.body);
+          let data = {
+            prevName: ``,
+            currName: ``
+          };
+          data.prevName = res.data.data.prevName;
+          data.currName = res.data.data.currName;
+          this.imgUploadSucList.push(data);
         }, (res) => {
           console.log(`上传图片失败`);
         });
