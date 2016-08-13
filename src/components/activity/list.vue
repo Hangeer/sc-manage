@@ -10,6 +10,9 @@
   .right {
     float: right;
   }
+  .wrapper {
+    margin: 50px 0;
+  }
 </style>
 
 <template>
@@ -28,20 +31,18 @@
       <tbody v-for="item in activityList">
       <tr>
         <th scope="row">{{item.id}}</th>
+        <td> {{item.hd_title}} </td>
+        <td> {{item.hd_likes}} </td>
+        <td> {{item.hd_unit}} </td>
         <td>
-            {{item.hd_title}}
-        </td>
-        <td>
-            {{item.hd_likes}}
-        </td>
-        <td>
-            {{item.hd_unit}}
-        </td>
-        <td>
-          <button type="button" class="btn btn-danger" @click="deleteSingleActivity(item.id)">
+          <button type="button" 
+                  class="btn btn-danger" 
+                  @click="deleteSingleActivity(item.id)">
             删除
           </button>
-          <button type="button" class="btn btn-info" @click="modifySingleActivity(item.id)">
+          <button type="button" 
+                  class="btn btn-info" 
+                  @click="modifySingleActivity(item.id)">
             编辑
           </button>
         </td>
@@ -49,7 +50,7 @@
       </tbody>
     </table>
     
-    <div class="wrapper" style="margin: 50px 0;">
+    <div class="wrapper">
       <nav>
         <ul class="pager" style="overflow: hidden">
           <li class="previous" @click="prevPage">
@@ -128,6 +129,7 @@
         }, (res) => {
           console.log(`获取活动列表失败`);
         });
+        
         /*
         *  获取列表
         */
@@ -137,6 +139,7 @@
         this.isDetailShow == false 
         ? this.isDetailShow = true 
         : alert("请先关闭列表 再进行编辑");
+        
         /*
         *  编辑单条数据
         */
@@ -156,6 +159,7 @@
         }, (res) => {
           alert(`删除失败`);
         });
+        
         /*
         *  删除单条数据
         */
@@ -181,7 +185,9 @@
         }
       },
       gotoPage () {      
-        this.currentPage >=1 && this.currentPage <= this.totalPage ? this.$options.methods.getActivityList.bind(this)() : alert("无效的页数");
+        this.currentPage >=1 && this.currentPage <= this.totalPage 
+        ? this.$options.methods.getActivityList.bind(this)() 
+        : alert("无效的页数");
       },
       closeDetail () {
         this.isDetailShow = false;

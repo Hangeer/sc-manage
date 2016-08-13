@@ -33,19 +33,13 @@
              v-model="currentArticle.atc_title">
     </div>
 
-    <!-- 
-      有坑，想用 p 加上可编辑属性来做文本编辑
-      然而不支持 v-model 属性 
-      暂时先这样做着
-    -->
-
     <section>
-      <h4>文章内容</h4>
-      <p class="editor" 
-         contenteditable="true" 
-         id="editor-article">
-        {{currentArticle.atc_content}}
-      </p>
+      <editor :content.sync="currentArticle.atc_content" 
+              :height="500" 
+              :z-index="1000" 
+              :auto-height="true" 
+              :disable-full-screen="true">            
+      </editor>
     </section>
 
     <p>所属部门</p>
@@ -64,7 +58,9 @@
               @click="submitArticle">
         提交
       </button>
-      <p> 提示：提交之后点上方 关闭列表 按钮关闭此列表 </p>
+
+      <p>提交状态：{{submit_status}}</p>
+      <p>提示：提交完毕之后点上方 关闭列表 按钮关闭此列表 </p>
     </div>
 
   </section>
@@ -84,7 +80,8 @@
           atc_title: "",
           atc_content: "",
           atc_type: ""
-        }
+        },
+        submit_status: "未提交"
       }
     },
     methods: {
@@ -106,15 +103,12 @@
         }  
       },
       submitArticle () {
-        let atc_content = document.getElementById("editor-article").innerHTML.trim();
         let atc_type = document.getElementById("type").value;
         let data = this.currentArticle;
         let url = ``;
 
-        data.atc_content = atc_content;
+        this.submit_status = `正在提交，请稍等`;
         data.atc_type = atc_type;
-
-        console.log(this.currentArticle);
 
         if (this.modifyId > 0) {
           url = `http://localhost:8360/backend/index/updatearticle`;
@@ -124,9 +118,9 @@
 
         this.$http.post(url, data, { emulateJSON: true })
         .then((res) => {
-          console.log(`提交成功`);
+          this.submit_status = `提交成功`;
         }, (res) => {
-          console.log(`提交失败`);
+          this.submit_status = `提交失败`;
         });
       }
     }

@@ -82,28 +82,33 @@
              v-model="currentActivity.hd_peixun">
     </div>
 
-    <!-- 
-      有坑，想用 p 加上可编辑属性来做文本编辑
-      然而不支持 v-model 属性 
-      暂时先这样做着
-    -->
+    <div class="input-group">
+      <span class="input-group-addon"> 标签 </span>
+      <input type="text" 
+             class="form-control" 
+             v-model="currentActivity.hd_tags">
+    </div>
 
     <section>
       <h4> 活动详情 </h4>
-      <p class="editor" 
-         contenteditable="true" 
-         id="editor-article">
-        {{currentActivity.hd_detail}}
-      </p>
+      <p>提示：上传图片请不要用此编辑器的上传按钮，请先上传本地图片获取 URL 或者插入网络图片，使用添加 URL 的方式上传</p> 
+      <editor :content.sync="currentActivity.hd_detail" 
+              :height="500" 
+              :z-index="1000" 
+              :auto-height="true" 
+              :disable-full-screen="true">            
+      </editor>
     </section>
 
     <section>
       <h4> 演讲人详情 </h4>
-      <p class="editor" 
-         contenteditable="true" 
-         id="editor-figure">
-        {{currentActivity.hd_compere}}
-      </p>
+      <p>提示：上传图片请不要用此编辑器的上传按钮，请先上传本地图片获取 URL 或者插入网络图片，使用添加 URL 的方式上传</p> 
+      <editor :content.sync="currentActivity.hd_compere" 
+              :height="500" 
+              :z-index="1000" 
+              :auto-height="true" 
+              :disable-full-screen="true">            
+      </editor>
     </section>
 
     <p> 活动状态 </p>
@@ -126,6 +131,8 @@
               @click="submitActivity">
         提交
       </button>
+
+      <p>提交状态：{{submit_status}}</p>
       <p> 提示：提交之后点上方 关闭列表 按钮关闭此列表 </p>
     </div>
 
@@ -150,8 +157,10 @@
           hd_getTicket_time: "",
           hd_getTicket_place: "",
           hd_unit: "",
-          hd_peixun: ""
-        }
+          hd_peixun: "",
+          hd_tags: ""
+        },
+        submit_status: `未提交`
       }
     },
     methods: {
@@ -175,15 +184,12 @@
         }  
       },
       submitActivity () {
-        let hd_detail = document.getElementById("editor-article").innerHTML.trim();
-        let hd_compere = document.getElementById("editor-figure").innerHTML.trim();
         let hd_state = document.getElementById("status").value;
         let hd_type = document.getElementById("type").value;
         let data = this.currentActivity;
         let url = ``;
 
-        data.hd_detail = hd_detail;
-        data.hd_compere = hd_compere;
+        this.submit_status = `正在提交，请稍等`;
         data.hd_state = hd_state;
         data.hd_type = hd_type;
 
@@ -193,20 +199,17 @@
         *   每次都要判断 this.modifyId 看是不是新建活动
         */
 
-
         if (this.modifyId > 0) {
           url = `http://localhost:8360/backend/index/updateactivity`;
         } else {
           url = `http://localhost:8360/backend/index/createactivity`;
         }
 
-        this.$http.post(url, data, {
-            emulateJSON: true
-        })
+        this.$http.post(url, data, { emulateJSON: true })
         .then((res) => {
-          alert("提交成功");
+          this.submit_status = `提交成功`;
         }, (res) => {
-          alert("提交失败");
+          this.submit_status = `提交失败`;
         });
       }
     }

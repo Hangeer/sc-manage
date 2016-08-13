@@ -41,11 +41,11 @@
     <table class="table table-striped">
       <thead>
       <tr>
-        <th> 文章 ID </th>
-        <th> 文章标题 </th>
-        <th> 上传时间 </th>
-        <th> 所属部门 </th>
-        <th> 操作 </th>
+        <th>文章ID </th>
+        <th>文章标题</th>
+        <th>上传时间</th>
+        <th>所属部门</th>
+        <th>操作</th>
       </tr>
       </thead>
       <tbody v-for="item in articleList">
@@ -105,7 +105,7 @@
               v-show="isDetailShow">
         关闭列表
       </button>
-      <span v-show="isDetailShow">(若未提交不会修改数据)</span>
+      <span v-show="isDetailShow">(若未提交不会修改数据，提交成功之后，请先关闭列表，再进行下一次操作)</span>
       <button type="button" 
               class="btn btn-success right"
               @click="createArticle">

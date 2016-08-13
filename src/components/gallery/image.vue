@@ -140,6 +140,7 @@
       </form>
 
       <div class="input-group">
+        <p>若需要上传本地图片，请点击选择文件，上传成功会返回 url ，再将 url 填写</p>
         <p>已上传的图片列表</p>
 
         <table class="table table-striped">
