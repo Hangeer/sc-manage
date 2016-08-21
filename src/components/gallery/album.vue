@@ -24,102 +24,151 @@
     display: inline-block; 
     text-align: center;
   }
+  .albums-section {
+    border: 1px solid #aaa;
+    margin-bottom: 20px;
+  }
 </style>
 
 <template>
   <section class="album">
-    <p class="bg-info title">相册管理界面</p>
-    <!-- 相册管理界面 title -->
+    <section class="albums-section">
+      <p class="bg-info title">相册管理界面</p>
+      <!-- 相册管理界面 title -->
     
-    <table class="table table-striped">
-      <thead>
-      <tr>
-        <th> 相册 ID </th>
-        <th> 名称 </th>
-        <th> 所含图片数量 </th>
-        <th> 点赞数 </th>
-        <th> 封面图地址 </th>
-        <th> 操作 </th>
-      </tr>
-      </thead>
-      <tbody v-for="item in albumList">
-      <tr>
-        <th scope="row"> {{item.id}} </th>
-        <td>
-          <input type="text" 
-                 class="form-control" 
-                 placeholder="相册名称" 
-                 v-model="item.album_name">
-        </td>
-        <td> {{item.album_pages}} </td>
-        <td> {{item.album_likes}} </td>
-        <td>
-          <input type="text" 
-                 class="form-control" 
-                 placeholder="封面链接" 
-                 v-model="item.album_cover">
-        </td>
-        <td>
-          <button type="button" 
+      <table class="table table-striped">
+        <thead>
+        <tr>
+          <th> 相册 ID </th>
+          <th> 名称 </th>
+          <th> 所含图片数量 </th>
+          <th> 点赞数 </th>
+          <th> 封面图地址 </th>
+          <th> 操作 </th>
+        </tr>
+        </thead>
+        <tbody v-for="item in albumList">
+        <tr>
+          <th scope="row"> {{item.id}} </th>
+          <td>
+            <input type="text" 
+                   class="form-control" 
+                   placeholder="相册名称" 
+                   v-model="item.album_name">
+          </td>
+          <td> {{item.album_pages}} </td>
+          <td> {{item.album_likes}} </td>
+          <td>
+            <input type="text" 
+                   class="form-control" 
+                   placeholder="封面链接" 
+                   v-model="item.album_cover">
+          </td>
+          <td>
+            <button type="button" 
+                    class="btn btn-danger right" 
+                    @click="deleteSingle(item.id)">
+              删除
+            </button>
+            <button type="button" 
+                    class="btn btn-info right" 
+                    @click="updateSingle(item)">
+              更新
+            </button>
+            <button type="button" 
+                    class="btn btn-warning right" 
+                    @click="chooseDetail(item)">
+              详情
+            </button>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+      <!-- 当前页面相册列表 -->
+      
+      <div class="wrapper">
+        <nav>
+          <ul class="pager">
+            <li class="previous" 
+                @click="prevPage">
+              <span aria-hidden="true"> &larr; 上一页 </span>
+            </li>
+            <li class="next">
+              <span aria-hidden="true" 
+                    @click="nextPage"> 下一页 &rarr; </span>
+            </li>
+          </ul>
+          <div style="width: 300px; margin: 0 auto">
+            <span>当前第</span>
+            <input type="text" 
+                   class="form-control current-page" 
+                   v-model="currentPage">
+            <span>页，一共 {{totalPage}} 页</span>
+            <button class="btn btn-default" 
+                    type="button" 
+                    @click="gotoPage">
+              Go!
+            </button>
+          </div>
+        </nav>
+      </div>
+      <!-- 分页器 -->
+    </section>
+
+    <section class="albums-section">
+      <div class="album-detail">
+        <p class="bg-warning title">相册详情</p>
+
+        <p>当前显示相册 ID: {{detailId}}</p>
+
+        <table class="table table-striped">
+        <thead>
+        <tr>
+          <th> 图片 ID </th>
+          <th> 名称 </th>
+          <th> 点赞数 </th>
+          <th> 地址 </th>
+          <th> 操作 </th>
+        </tr>
+        </thead>
+        <tbody v-for="item in detailList">
+        <tr>
+          <th scope="row"> {{item.id}} </th>  
+          <td>{{item.pic_name}}</td>
+          <td>{{item.pic_likes}}</td>
+          <td>{{item.pic_url}}</td>
+          <td>
+            <button type="button" 
                   class="btn btn-danger right" 
                   @click="deleteSingle(item.id)">
-            删除
-          </button>
-          <button type="button" 
-                  class="btn btn-info right" 
-                  @click="updateSingle(item)">
-            更新
-          </button>
-        </td>
-      </tr>
-      </tbody>
-    </table>
-    <!-- 当前页面相册列表 -->
-    
-    <div class="wrapper">
-      <nav>
-        <ul class="pager">
-          <li class="previous" 
-              @click="prevPage">
-            <span aria-hidden="true"> &larr; 上一页 </span>
-          </li>
-          <li class="next">
-            <span aria-hidden="true" 
-                  @click="nextPage"> 下一页 &rarr; </span>
-          </li>
-        </ul>
-        <div style="width: 300px; margin: 0 auto">
-          <span>当前第</span>
-          <input type="text" 
-                 class="form-control current-page" 
-                 v-model="currentPage">
-          <span>页，一共 {{totalPage}} 页</span>
-          <button class="btn btn-default" 
-                  type="button" 
-                  @click="gotoPage">
-            Go!
-          </button>
-        </div>
-      </nav>
-    </div>
-    <!-- 分页器 -->
-
-    <div class="new-image">
-      <p class="bg-success title">创建新的相册</p>
-
-      <div class="input-group" v-for="item in albumInfo">
-        <span class="input-group-addon"> {{item.text}} </span>
-        <input type="text" 
-               class="form-control" 
-               v-model="item.val">
+              删除
+            </button>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+      <!-- 图片列表 -->
       </div>
-      <button type="button" 
-              class="btn btn-warning right" 
-              @click="sendAlbum">
-        创建相册
-      </button>
-    </div>
-    <!-- 创建新的相册 -->
+    </section>
+
+    <section class="albums-section">
+      <div class="new-image">
+        <p class="bg-success title">创建新的相册</p>
+
+        <div class="input-group" v-for="item in albumInfo">
+          <span class="input-group-addon"> {{item.text}} </span>
+          <input type="text" 
+                 class="form-control" 
+                 v-model="item.val">
+        </div>
+        <button type="button" 
+                class="btn btn-warning right" 
+                @click="sendAlbum">
+          创建相册
+        </button>
+      </div>
+      <!-- 创建新的相册 -->
+    </section>
 
   </section>
 </template>
@@ -143,7 +192,9 @@
         albumInfo: {
           album_name: {text: "相册名称", val: ""},
           album_cover: {text: "封面图地址", val: ""}
-        }
+        },
+        detailId: 0,
+        detailList: []
         
         /*
         *   @params:
@@ -235,6 +286,38 @@
         /*
         *   updateSingle
         *     更新相册信息
+        */
+      },
+      chooseDetail (item) {
+        this.detailId = item.id;
+        let data = {
+          id: this.detailId
+        };
+        let url = `http://localhost:8360/backend/index/detailbyid`;
+
+        this.$http.post(url, data, { emulateJSON: true })
+        .then((res) => {
+          this.detailList = res.data.data.data;
+          console.log(this.detailList);
+        }, (res) => {
+
+        });
+      },
+      deleteSingle (pic_id) {
+        let data = { id: pic_id },
+            url = `http://localhost:8360/backend/index/deletesingleimg`;
+
+        this.$http.post(url, data, { emulateJSON: true })
+        .then((res) => {
+          console.log(`删除单条信息成功`);
+          //  数据操作搞完了需要刷新
+        }, (res) => {
+          console.log(`删除单条信息失败`);
+        });
+
+        /*
+        *   deleteSingle:
+        *      删除单条数据
         */
       },
       prevPage () {
