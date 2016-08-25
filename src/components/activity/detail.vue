@@ -120,10 +120,29 @@
 
     <p> 活动类型 </p>
     <select class="form-control" id="type">
-      <option value="1"> 辣鸡 </option>
-      <option value="2"> 很垃圾 </option>
-      <option value="3"> 灰常辣鸡 </option>
+      <option value="1"> 竞赛 </option>
+      <option value="2"> 讲座 </option>
+      <option value="3"> 内部 </option>
     </select>
+
+    <p>相关链接</p>
+    <div class="relative-links" v-for="item in relaviteLinks">
+      <form class="form-inline">
+        <div class="form-group">
+          显示文字：
+          <input type="text" class="form-control" placeholder="文字" v-model="item.related_title">
+        </div>
+        <div class="form-group">
+          链接地址
+          <input type="text" class="form-control" placeholder="链接地址" v-model="item.related_url">
+        </div>
+        <div class="form-group">
+          链接类型
+          <input type="text" class="form-control" placeholder="链接类型" v-model="item.related_type">
+        </div>
+      </form>
+    </div>
+    <button class="btn btn-default" @click="submitLinks">继续添加链接</button>
 
     <div class="submit-container">
       <button type="button" 
@@ -146,6 +165,7 @@
     ],
     ready () {
       this.$options.methods.getActivity.bind(this)();
+      this.$options.methods.getLinks.bind(this)();
     },
     data () {
       return {
@@ -160,6 +180,15 @@
           hd_peixun: "",
           hd_tags: ""
         },
+        relaviteLinks: [
+          {
+            id: -1,
+            activity_id: this.modifyId,
+            related_title: '',
+            related_url: '',
+            related_type: ''
+          }
+        ],
         submit_status: `未提交`
       }
     },
@@ -182,6 +211,22 @@
         } else {
           console.log("新建活动");
         }  
+      },
+      getLinks () {
+        if (this.modifyId > 0) {
+          let data = {
+            hd_id: this.modifyId
+          };
+          let url = `http://localhost:8360/backend/index/getlinks`;
+          this.$http.post(url, data, {
+            emulateJSON: true
+          })
+          .then((res) => {
+            this.relaviteLinks = res.data.data;
+          }, (res) => {
+            console.log("获取单条信息失败");
+          });
+        }
       },
       submitActivity () {
         let hd_state = document.getElementById("status").value;
@@ -211,6 +256,37 @@
         }, (res) => {
           this.submit_status = `提交失败`;
         });
+      },
+      submitLinks () {
+        let data = {
+          arr: this.relaviteLinks          
+        };
+        data = JSON.stringify(data);
+
+        // this.relaviteLinks.forEach((item, index) => {
+        //   data[index] = item;
+        // });
+      
+        let url = `http://localhost:8360/backend/index/submitlinks`;
+
+        this.$http.post(url, {data: data}, {
+          emulateJSON: true
+        })
+        .then((res) => {
+          console.log(123);
+        }, (res) => {
+          console.log(123);
+        });
+      },
+      addLink () {
+        let data = {
+              id: -1,
+              activity_id: this.modifyId,
+              related_title: '',
+              related_url: '',
+              related_type: ''
+            };
+        this.relaviteLinks.push(data);
       }
     }
   }

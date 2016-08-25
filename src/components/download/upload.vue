@@ -120,7 +120,7 @@
             currName: ``
           };
           data.prevName = res.data.data.prevName;
-          data.currName = res.data.data.currName;
+          data.currName = `http://localhost:8360/upload/${res.data.data.currName}`;
           this.fileUploadSucList.push(data);
         }, (res) => {
           console.log(`上传图片失败`);
