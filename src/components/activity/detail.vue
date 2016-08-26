@@ -142,7 +142,7 @@
         </div>
       </form>
     </div>
-    <button class="btn btn-default" @click="submitLinks">继续添加链接</button>
+    <button class="btn btn-default" @click="addLink">继续添加链接</button>
 
     <div class="submit-container">
       <button type="button" 
@@ -232,50 +232,48 @@
         let hd_state = document.getElementById("status").value;
         let hd_type = document.getElementById("type").value;
         let data = this.currentActivity;
-        let url = ``;
+        let hd_url = ``;
+        let flag = 0;
 
         this.submit_status = `正在提交，请稍等`;
         data.hd_state = hd_state;
         data.hd_type = hd_type;
 
-        /*
-        *   是的没错 这一段写得好智障啊
-        *   绑定不了数据
-        *   每次都要判断 this.modifyId 看是不是新建活动
-        */
-
         if (this.modifyId > 0) {
-          url = `http://localhost:8360/backend/index/updateactivity`;
+          hd_url = `http://localhost:8360/backend/index/updateactivity`;
         } else {
-          url = `http://localhost:8360/backend/index/createactivity`;
+          hd_url = `http://localhost:8360/backend/index/createactivity`;
         }
 
-        this.$http.post(url, data, { emulateJSON: true })
+        this.$http.post(hd_url, data, { emulateJSON: true })
         .then((res) => {
-          this.submit_status = `提交成功`;
+          if (flag < 1) {
+            flag++;
+            console.log(flag);
+          } else {
+            this.submit_status = `提交成功`;
+          }
         }, (res) => {
           this.submit_status = `提交失败`;
         });
-      },
-      submitLinks () {
-        let data = {
+
+        let links_data = {
           arr: this.relaviteLinks          
         };
-        data = JSON.stringify(data);
+        links_data = JSON.stringify(links_data);
 
-        // this.relaviteLinks.forEach((item, index) => {
-        //   data[index] = item;
-        // });
-      
-        let url = `http://localhost:8360/backend/index/submitlinks`;
+        let links_url = `http://localhost:8360/backend/index/submitlinks`;
 
-        this.$http.post(url, {data: data}, {
-          emulateJSON: true
-        })
+        this.$http.post(links_url, {data: links_data}, {emulateJSON: true})
         .then((res) => {
-          console.log(123);
+          if (flag < 1) {
+            flag++;
+            console.log(flag);
+          } else {
+            this.submit_status = `提交成功`;
+          }
         }, (res) => {
-          console.log(123);
+          this.submit_status = `提交失败`;
         });
       },
       addLink () {
