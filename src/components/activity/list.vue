@@ -18,6 +18,19 @@
 <template>
   <section class="album">
     <p class="bg-info title">活动管理界面</p>
+
+    请选择分类
+    <select class="form-control" 
+            v-model="selected" 
+            v-on:change="getSelected">
+      <option value=0>全部分类</option>
+      <option value=1>讲座</option>
+      <option value=2>竞赛</option>
+      <option value=3>展览</option>
+      <option value=4>内部</option>
+      <option value=5>其他</option>
+    </select>
+
     <table class="table table-striped">
       <thead>
       <tr>
@@ -110,13 +123,15 @@
         currentPage: 1,
         totalPage: 1,
         activityList: [],
-        modifyActivityId: 1
+        modifyActivityId: 1,
+        selected: 0
       }
     },
     methods: {
       getActivityList () {
         let data = {
-          currentPage: this.currentPage
+          currentPage: this.currentPage,
+          selected: this.selected
         };
         let url = `http://localhost:8360/backend/index/getactivitylist`;
 
@@ -191,6 +206,9 @@
       },
       closeDetail () {
         this.isDetailShow = false;
+      },
+      getSelected () {
+        this.$options.methods.getActivityList.bind(this)();
       }
     }
   }

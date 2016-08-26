@@ -120,9 +120,11 @@
 
     <p> 活动类型 </p>
     <select class="form-control" id="type">
-      <option value="1"> 竞赛 </option>
-      <option value="2"> 讲座 </option>
-      <option value="3"> 内部 </option>
+      <option value=1>讲座</option>
+      <option value=2>竞赛</option>
+      <option value=3>展览</option>
+      <option value=4>内部</option>
+      <option value=5>其他</option>
     </select>
 
     <p>相关链接</p>
@@ -181,13 +183,7 @@
           hd_tags: ""
         },
         relaviteLinks: [
-          {
-            id: -1,
-            activity_id: this.modifyId,
-            related_title: '',
-            related_url: '',
-            related_type: ''
-          }
+          
         ],
         submit_status: `未提交`
       }
@@ -205,6 +201,8 @@
           })
           .then((res) => {
             this.currentActivity = res.data.data;
+            document.querySelector('#status').value = this.currentActivity.hd_state;
+            document.querySelector('#type').value = this.currentActivity.hd_type;
           }, (res) => {
             console.log("获取单条信息失败");
           });
