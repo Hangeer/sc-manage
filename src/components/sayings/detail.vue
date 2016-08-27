@@ -44,12 +44,12 @@
 
     <p>所属部门</p>
     <select class="form-control" id="type">
-      <option value="1">综合部</option>
-      <option value="2">项目管理部</option>
-      <option value="3">科技人文部</option>
-      <option value="4">科创竞赛部</option>
-      <option value="5">信息部</option>
-      <option value="6">媒体运营部</option>
+      <option value="综合">综合部</option>
+      <option value="项目">项目管理部</option>
+      <option value="科技">科技人文部</option>
+      <option value="科创">科创竞赛部</option>
+      <option value="信息">信息部</option>
+      <option value="媒体">媒体运营部</option>
     </select>
 
     <div class="submit-container">
@@ -95,6 +95,7 @@
           this.$http.post(url, data, { emulateJSON: true })
           .then((res) => {
             this.currentArticle = res.data.data;
+            document.querySelector("#type").value = res.data.data.atc_type;
           }, (res) => {
             console.log("获取单条信息失败");
           });
@@ -105,9 +106,11 @@
       submitArticle () {
         let atc_type = document.getElementById("type").value;
         let data = this.currentArticle;
+        let date = new Date();
         let url = ``;
 
         this.submit_status = `正在提交，请稍等`;
+        data.atc_time = date.toLocaleDateString().replace(/\//g, `-`);
         data.atc_type = atc_type;
 
         if (this.modifyId > 0) {
