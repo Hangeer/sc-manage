@@ -33,6 +33,13 @@
              v-model="currentArticle.atc_title">
     </div>
 
+    <div class="input-group">
+      <span class="input-group-addon">作者</span>
+      <input type="text" 
+             class="form-control" 
+             v-model="currentArticle.atc_author">
+    </div>    
+
     <section>
       <editor :content.sync="currentArticle.atc_content" 
               :height="500" 
@@ -79,7 +86,8 @@
         currentArticle: {
           atc_title: "",
           atc_content: "",
-          atc_type: ""
+          atc_type: "",
+          atc_author:""
         },
         submit_status: "未提交"
       }
