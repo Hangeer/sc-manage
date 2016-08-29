@@ -18,6 +18,7 @@ import sayings_list from './components/sayings/list'
 import download from './components/download/index'
 import download_list from './components/download/list'
 import download_upload from './components/download/upload'
+import slider from './components/slider/index'
 
 Vue.config.debug = true;
 let Index = Vue.extend({});
@@ -99,6 +100,9 @@ router.map({
             component: download_upload
           }
         }
+      },
+      '/slider': {
+        component: slider
       }
     }
   }

@@ -29,7 +29,11 @@
 <template>
   <section class="album">
     <p class="bg-info title">直播管理界面</p>
-    <button type="button" class="btn btn-info">开始新的直播</button>
+    <button type="button" 
+            class="btn btn-info"
+            @click="startLive">
+            开始新的直播
+    </button>
     <table class="table table-striped">
       <thead>
       <tr>
@@ -105,7 +109,11 @@
         <input type="text" class="form-control" v-model="item.val">
       </div>
 
-      <button type="button" class="btn btn-warning" @click="postLive">推送直播</button>
+      <button type="button" 
+              class="btn btn-warning" 
+              @click="postLive">
+        推送直播
+      </button>
     </div>
 
   </section>
@@ -197,6 +205,18 @@
           this.$options.methods.getLiveList.bind(this)();
         }, (res) => {
           console.log(`更新失败`);
+        });
+      },
+      startLive () {
+        let url = `http://localhost:8360/backend/index/startlive`;
+        this.$http.post(url, {}, {
+          emulateJSON: true
+        })
+        .then((res) => {
+          console.log('清空直播表');
+          this.$options.methods.getLiveList.bind(this)();
+        }, (res) => {
+          console.log('清空直播表失败');
         });
       },
       prevPage () {

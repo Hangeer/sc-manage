@@ -48,6 +48,10 @@
             text: "下载专区",
             link: "/app/download"
 
+          },
+          {
+            text: "轮播图管理",
+            link: "/app/slider"
           }
         ]
       }
