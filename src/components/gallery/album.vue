@@ -67,7 +67,7 @@
           <td>
             <button type="button" 
                     class="btn btn-danger right" 
-                    @click="deleteSingle(item.id)">
+                    @click="deleteSingleAlbum(item.id)">
               删除
             </button>
             <button type="button" 
@@ -115,7 +115,8 @@
       <!-- 分页器 -->
     </section>
 
-    <section class="albums-section">
+    <section class="albums-section" 
+             v-show="detailId > 0">
       <div class="album-detail">
         <p class="bg-warning title">相册详情</p>
 
@@ -250,7 +251,7 @@
         *     新建相册
         */
       },
-      deleteSingle (album_id) {
+      deleteSingleAlbum (album_id) {
         let data = { id: album_id },
             url = `http://localhost:8360/backend/index/deletesinglealbum`;
 

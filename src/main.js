@@ -109,7 +109,7 @@ router.map({
 });
 
 router.redirect({
-  '*': '/app'
+  '*': '/login'
 });
 /*
  *   每次新开一个页面, 就在 map 传递的对象下面加一个
