@@ -160,7 +160,7 @@
           <span class="input-group-addon"> {{item.text}} </span>
           <input type="text" 
                  class="form-control" 
-                 v-model="item.val">
+                 v-model="item.val">       
         </div>
         <button type="button" 
                 class="btn btn-warning right" 
@@ -192,7 +192,8 @@
         albumList: [],
         albumInfo: {
           album_name: {text: "相册名称", val: ""},
-          album_cover: {text: "封面图地址", val: ""}
+          album_cover: {text: "封面图地址", val: ""},
+          album_cover: {text: "相册分类", val: ""}
         },
         detailId: 0,
         detailList: []

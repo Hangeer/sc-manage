@@ -24,11 +24,11 @@
             v-model="selected" 
             v-on:change="getSelected">
       <option value=0>全部分类</option>
-      <option value=1>讲座</option>
-      <option value=2>竞赛</option>
-      <option value=3>展览</option>
-      <option value=4>内部</option>
-      <option value=5>其他</option>
+      <option value="讲座">讲座</option>
+      <option value="竞赛">竞赛</option>
+      <option value="展览">展览</option>
+      <option value="内部">内部</option>
+      <option value="其他">其他</option>
     </select>
 
     <table class="table table-striped">

@@ -113,18 +113,18 @@
 
     <p> 活动状态 </p>
     <select class="form-control" id="status">
-      <option value="1"> 未开始 </option>
-      <option value="2"> 进行中 </option>
-      <option value="3"> 已完成 </option>
+      <option value="等待上线">等待上线</option>
+      <option value="进行中"> 进行中 </option>
+      <option value="已完成"> 已完成 </option>
     </select>
 
     <p> 活动类型 </p>
     <select class="form-control" id="type">
-      <option value=1>讲座</option>
-      <option value=2>竞赛</option>
-      <option value=3>展览</option>
-      <option value=4>内部</option>
-      <option value=5>其他</option>
+      <option value="讲座">讲座</option>
+      <option value="竞赛">竞赛</option>
+      <option value="展览">展览</option>
+      <option value="内部">内部</option>
+      <option value="其他">其他</option>
     </select>
 
     <p>相关链接</p>
@@ -132,15 +132,24 @@
       <form class="form-inline">
         <div class="form-group">
           显示文字：
-          <input type="text" class="form-control" placeholder="文字" v-model="item.related_title">
+          <input type="text" 
+                 class="form-control" 
+                 placeholder="文字" 
+                 v-model="item.related_title">
         </div>
         <div class="form-group">
           链接地址
-          <input type="text" class="form-control" placeholder="链接地址" v-model="item.related_url">
+          <input type="text" 
+                 class="form-control" 
+                 placeholder="链接地址" 
+                 v-model="item.related_url">
         </div>
         <div class="form-group">
           链接类型
-          <input type="text" class="form-control" placeholder="链接类型" v-model="item.related_type">
+          <input type="text" 
+                 class="form-control" 
+                 placeholder="链接类型" 
+                 v-model="item.related_type">
         </div>
       </form>
     </div>

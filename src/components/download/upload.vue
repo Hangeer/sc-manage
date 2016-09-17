@@ -44,10 +44,10 @@
 
       <p>文件类型</p>
       <select class="form-control" id="type">
-        <option value="1">word</option>
-        <option value="2">ppt</option>
-        <option value="3">excel</option>
-        <option value="4">视频</option>
+        <option value="word">word</option>
+        <option value="ppt">ppt</option>
+        <option value="excel">excel</option>
+        <!-- <option value="">视频</option> -->
       </select>
 
       <form enctype="multipart/form-data" 
