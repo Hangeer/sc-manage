@@ -22,6 +22,7 @@
         <th>名称</th>
         <th>上传时间</th>
         <th>文件类型</th>
+        <th>活动类型</th>
         <th>下载链接</th>
         <th>操作</th>
       </tr>
@@ -40,6 +41,9 @@
         </td>
         <td>
             {{item.file_type}}
+        </td>
+        <td>
+            {{item.type}}
         </td>
         <td>
            <input type="text" 

@@ -35,22 +35,29 @@
     <div class="new-image">
       <p class="bg-success title">上传文件</p>
 
-      <div class="input-group" v-for="item in fileInfo">
-        <span class="input-group-addon">{{item.text}}</span>
+      <div class="input-group">
+        <span class="input-group-addon">文件名称</span>
         <input type="text" 
                class="form-control" 
-               v-model="item.val">
+               v-model="fileInfo.file_title">
+      </div>
+
+      <div class="input-group">
+        <span class="input-group-addon">文件地址</span>
+        <input type="text" 
+               class="form-control" 
+               v-model="fileInfo.file_url">
       </div>
 
       <p>文件类型</p>
-      <select class="form-control" id="type">
+      <select class="form-control" v-model="fileInfo.file_type">
         <option value="word">word</option>
         <option value="ppt">ppt</option>
         <option value="excel">excel</option>
       </select>
 
       <p>活动类型</p>
-      <select class="form-control">
+      <select class="form-control" v-model="fileInfo.type">
         <option value="赛事报名">赛事报名</option>
         <option value="影像资料">影像资料</option>
         <option value="内部资料">内部资料</option>
@@ -110,8 +117,10 @@
       return {
         fileUploadSucList: [],
         fileInfo: {
-          file_title: {text: "文件名称", val: ""},
-          file_url: {text: "文件地址", val: ""}
+          file_title: "",
+          file_url: "",
+          file_type: "",
+          type: ""
         }
       }
     },
@@ -142,19 +151,17 @@
       sendFile () {
         let data = this.fileInfo;
         let url = `http://localhost:8360/backend/index/postfile`;
-
-        data.file_type = document.querySelector("#type").value;
-        data.file_title = this.fileInfo.file_title.val;
-        data.file_url = this.fileInfo.file_url.val;
         
         this.$http.post(url, data, { emulateJSON: true })
         .then((res) => {
           if (res.status == 200) {
-            console.log(`数据提交成功`);
+            alert(`数据提交成功`);
               this.fileInfo = {
-                file_title: {text: "文件名称", val: ""},
-                file_url: {text: "文件地址", val: ""}
-              };
+                    file_title: "",
+                    file_url: "",
+                    file_type: "",
+                    type: ""
+                  }
           }
         }, (res) => {
           console.log(`上传失败`);

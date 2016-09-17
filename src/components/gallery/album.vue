@@ -255,7 +255,7 @@
         this.$http.post(url, data, { emulateJSON: true })
         .then((res) => {
           if (res.status == 200) {
-            console.log("创建相册成功");
+            alert("创建相册成功");
             this.$options.methods.getAlbumList.bind(this)();  
             this.albumInfo = {
               album_name: "",
@@ -264,7 +264,7 @@
             };
           }
         }, (res) => {
-          console.log("创建相册失败");
+          alert("创建相册失败");
         });
 
         /*
@@ -278,10 +278,10 @@
 
         this.$http.post(url, data, { emulateJSON: true })
         .then((res) => {
-          console.log("删除相册成功");
+          alert("删除相册成功");
           this.$options.methods.getAlbumList.bind(this)();
         }, (res) => {
-          console.log("删除相册失败");
+          alert("删除相册失败");
         });
 
         /*
@@ -299,10 +299,10 @@
 
         this.$http.post(url, data, { emulateJSON: true })
         .then((res) => {
-          console.log(`更新相册信息成功`);
+          alert(`更新相册信息成功`);
           this.$options.methods.getAlbumList.bind(this)();
         }, (res) => {
-          console.log(`更新相册信息失败`);
+          alert(`更新相册信息失败`);
         });
 
         /*
@@ -331,10 +331,10 @@
 
         this.$http.post(url, data, { emulateJSON: true })
         .then((res) => {
-          console.log(`删除单条信息成功`);
+          alert(`删除单条信息成功`);
           //  数据操作搞完了需要刷新
         }, (res) => {
-          console.log(`删除单条信息失败`);
+          alert(`删除单条信息失败`);
         });
 
         /*
@@ -347,7 +347,7 @@
           alert("已经是第一页");
         } else {
           this.currentPage--;
-          this.$options.methods.getAlbumList.bind(this)();          
+          this.$options.methods.getAlbumList.bind(this)();
         }
       },
       nextPage () {      
