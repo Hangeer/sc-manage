@@ -36,7 +36,7 @@
       <p class="bg-success title">上传文件</p>
 
       <div class="input-group" v-for="item in fileInfo">
-        <span class="input-group-addon"> {{item.text}} </span>
+        <span class="input-group-addon">{{item.text}}</span>
         <input type="text" 
                class="form-control" 
                v-model="item.val">
@@ -47,7 +47,15 @@
         <option value="word">word</option>
         <option value="ppt">ppt</option>
         <option value="excel">excel</option>
-        <!-- <option value="">视频</option> -->
+      </select>
+
+      <p>活动类型</p>
+      <select class="form-control">
+        <option value="赛事报名">赛事报名</option>
+        <option value="影像资料">影像资料</option>
+        <option value="内部资料">内部资料</option>
+        <option value="其它">其它</option>
+        <option value="文峰青年大讲堂">文峰青年大讲堂</option>
       </select>
 
       <form enctype="multipart/form-data" 
@@ -120,7 +128,7 @@
             currName: ``
           };
           data.prevName = res.data.data.prevName;
-          data.currName = `http://localhost:8360/upload/${res.data.data.currName}`;
+          data.currName = `${res.data.data.currName}`;
           this.fileUploadSucList.push(data);
         }, (res) => {
           console.log(`上传图片失败`);

@@ -41,6 +41,7 @@
         <tr>
           <th> 相册 ID </th>
           <th> 名称 </th>
+          <th> 类型 </th>
           <th> 所含图片数量 </th>
           <th> 点赞数 </th>
           <th> 封面图地址 </th>
@@ -56,6 +57,7 @@
                    placeholder="相册名称" 
                    v-model="item.album_name">
           </td>
+          <td> {{item.album_type}} </td>
           <td> {{item.album_pages}} </td>
           <td> {{item.album_likes}} </td>
           <td>
@@ -156,12 +158,28 @@
       <div class="new-image">
         <p class="bg-success title">创建新的相册</p>
 
-        <div class="input-group" v-for="item in albumInfo">
-          <span class="input-group-addon"> {{item.text}} </span>
+        <div class="input-group">
+          <span class="input-group-addon">相册名称</span>
           <input type="text" 
                  class="form-control" 
-                 v-model="item.val">       
+                 v-model="albumInfo.album_name">              
         </div>
+        <div class="input-group">
+          <span class="input-group-addon">封面图地址</span>
+          <input type="text" 
+                 class="form-control" 
+                 v-model="albumInfo.album_cover">
+        </div>
+        <select class="form-control" 
+                v-model="albumInfo.album_type">
+          <option value="重邮美景">重邮美景</option>
+          <option value="讲座宣讲">讲座宣讲</option>
+          <option value="科技竞赛">科技竞赛</option>
+          <option value="活动展览">活动展览</option>
+          <option value="内部活动">内部活动</option>
+          <option value="趣味科技">趣味科技</option>
+          <option value="文峰青年大讲堂">文峰青年大讲堂</option>
+        </select>
         <button type="button" 
                 class="btn btn-warning right" 
                 @click="sendAlbum">
@@ -191,9 +209,9 @@
         totalPage: 1,
         albumList: [],
         albumInfo: {
-          album_name: {text: "相册名称", val: ""},
-          album_cover: {text: "封面图地址", val: ""},
-          album_cover: {text: "相册分类", val: ""}
+          album_name: "",
+          album_cover: "",
+          album_type: "重邮美景"
         },
         detailId: 0,
         detailList: []
@@ -228,8 +246,9 @@
       },
       sendAlbum () {
         let data = {
-          album_name: this.albumInfo.album_name.val,
-          album_cover: this.albumInfo.album_cover.val
+          album_name: this.albumInfo.album_name,
+          album_cover: this.albumInfo.album_cover,
+          album_type: this.albumInfo.album_type
         };
         let url = `http://localhost:8360/backend/index/postalbum`;
 
@@ -239,8 +258,9 @@
             console.log("创建相册成功");
             this.$options.methods.getAlbumList.bind(this)();  
             this.albumInfo = {
-              album_name: {text: "相册名称", val: ""},
-              album_cover: {text: "封面图地址", val: ""}
+              album_name: "",
+              album_cover: "",
+              album_type: "重邮美景"
             };
           }
         }, (res) => {
