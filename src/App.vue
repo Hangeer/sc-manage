@@ -27,6 +27,30 @@
 
 <script>
   export default {
+    ready () {
+      this.$router.beforeEach(() => {
+        if (sessionStorage.kjcx_name || sessionStorage.kjcx_code) {
+          let data = {
+            name: sessionStorage.kjcx_name,
+            code: sessionStorage.kjcx_code
+          }
+          let url = `http://localhost:8360/backend/index/testlogin`;
+          this.$http.post(url, data, { emulateJSON: true })
+          .then((res) => {
+            if (res.data.data.msg == 'success') {
+              console.log(res.data.data.msg)
+            } else {
+              this.$router.go('login');  
+            }
+          }, (res) => {
+            console.log(`验证失败`);
+            this.$router.go('login');
+          });
+        } else {
+          this.$router.go('login');
+        }
+      });
+    },
     data () {
       return {
         links: [

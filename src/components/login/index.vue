@@ -68,9 +68,6 @@
         let e = event || window.event;
         e.preventDefault();
 
-        sessionStorage.kjcx = `name=${this.user.name};code=${this.user.code}`;
-        //  通过 sessionStorage 判断登录
-
         let data = this.user;
         let url = `http://localhost:8360/backend/index/testuser`;
         
@@ -80,6 +77,8 @@
         .then((res) => {
           if (res.data.data.msg == 'success') {
             this.notify = '登录成功';
+            sessionStorage.kjcx_name = `${this.user.name}`;
+            sessionStorage.kjcx_code = `${this.user.code}`;
             this.$router.go('/app');
           } else {
             this.notify = '帐号密码有错误';  
