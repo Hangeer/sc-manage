@@ -50,7 +50,7 @@
     </section>
 
     <p>所属部门</p>
-    <select class="form-control" id="type">
+    <select class="form-control" v-model="currentArticle.atc_type">
       <option value="综合">综合部</option>
       <option value="项目">项目管理部</option>
       <option value="科技">科技人文部</option>
@@ -112,14 +112,12 @@
         }  
       },
       submitArticle () {
-        let atc_type = document.getElementById("type").value;
         let data = this.currentArticle;
         let date = new Date();
         let url = ``;
 
         this.submit_status = `正在提交，请稍等`;
         data.atc_time = date.toLocaleDateString().replace(/\//g, `-`);
-        data.atc_type = atc_type;
 
         if (this.modifyId > 0) {
           url = `http://localhost:8360/backend/index/updatearticle`;
