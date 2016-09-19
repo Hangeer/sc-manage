@@ -1,33 +1,33 @@
 <style scoped>
-  .album {
+.album {
     margin-top: 20px;
-  }
-  .title {
+}
+.title {
     line-height: 50px;
     padding: 0 10px;
     font-size: 20px;
-  }
-  .input-group {
+}
+.input-group {
     margin-bottom: 10px;
-  }
-  .new-image {
+}
+.new-image {
     margin-bottom: 50px;
-  }
-  .wrapper {
+}
+.wrapper {
     margin: 50px 0;
-  }
-  .pager {
+}
+.pager {
     overflow: hidden;
-  }
-  .current-page {
+}
+.current-page {
     width: 50px; 
     display: inline-block; 
     text-align: center;
-  }
-  .albums-section {
+}
+.albums-section {
     border: 1px solid #aaa;
     margin-bottom: 20px;
-  }
+}
 </style>
 
 <template>
