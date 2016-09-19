@@ -114,8 +114,8 @@
         <p> 活动状态 </p>
         <select class="form-control" id="status">
                 <option value="等待上线">等待上线</option>
-                <option value="进行中"> 进行中 </option>
-                <option value="已完成"> 已完成 </option>
+                <option value="已结束">已结束</option>
+                <option value="直播间">直播间</option>
         </select>
 
         <p> 活动类型 </p>
