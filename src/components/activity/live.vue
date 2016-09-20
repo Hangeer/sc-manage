@@ -175,6 +175,11 @@ export default {
         postLive () {
             let data = this.liveInfo;
             let url = `http://localhost:8360/backend/index/postlive`;
+            let d = new Date();
+
+            data.time = d.toLocaleDateString().replace(/\//g, `-`) 
+                            + ' ' 
+                            + d.toTimeString().replace(/\//g, `-`).replace(/G.+/g, '').trim();
 
             this.$http.post(url, data, {
                 emulateJSON: true
