@@ -28,6 +28,9 @@
 	display: inline-block; 
 	text-align: center;
 }
+.file-info {
+	margin-bottom: 30px;
+}
 </style>
 
 <template>
@@ -136,8 +139,10 @@
 					style="overflow: hidden">
 				<input type="file" 
 						class="btn btn-warning" 
+						id = "image"
 						name="image" 
-						style="margin: 10px 0;float: left" />
+						style="margin: 10px 0;float: left" 
+						@change="showFileInfo"/>
 				<button type="button" 
 						class="btn btn-info" 
 						style="margin: 10px 10px;float: left" 
@@ -145,22 +150,31 @@
 					点击上传图片
 				</button>
 			</form>
+			
+			<div class="file-info">
+				<p>
+					<span>文件大小: {{fileInfo.size}}</span>
+				</p>
+				<p>
+					<span>文件类型: {{fileInfo.type}}</span>
+				</p>
+			</div>
 
 			<div class="input-group">
-				<p>若需要上传本地图片，请点击选择文件，上传成功会返回 url ，再将 url 填写</p>
+				<p>提示：若需要上传本地图片，请点击选择文件，上传成功会返回 url ，再将 url 填写</p>
 				<p>已上传的图片列表</p>
 
 				<table class="table table-striped">
 					<thead>
 						<tr>
 							<th>图片本地名称</th>
-							<th>照片 url</th>
+							<th>照片 url (在需要填写 url 的地方填这个)</th>
 						</tr>
 					</thead>
 					<tbody v-for="item in imgUploadSucList">
 						<tr>
 							<td>{{item.prevName}}</td>
-							<td>{{item.currName}}</td>
+							<td style="background-color: #fff">{{item.currName}}</td>
 						</tr>
 					</tbody>
 				</table>
@@ -199,6 +213,10 @@ export default {
 				albumId: "",
 				pic_name: "",
 				pic_url: ""
+			},
+			fileInfo: {
+				name: '',
+				type: ''
 			}
 		}
 	},
@@ -250,7 +268,7 @@ export default {
 		},
 		testSubmit () {
 			let fd = new FormData(document.getElementById("form-cont")),
-			url = `http://localhost:8360/backend/index/uploadimg`;
+				url = `http://localhost:8360/backend/index/uploadimg`;
 
 			this.$http.post(url, fd)
 			.then((res) => {
@@ -288,6 +306,14 @@ export default {
 			}, (res) => {
 				alert(`上传失败`);
 			});
+		},
+		showFileInfo () {
+			let file = document.querySelector('#image');
+			this.fileInfo = {
+				size: ~~file.files[0].size/1000 + ' KB',
+				type: file.files[0].type
+			}
+
 		},
 		prevPage () {
 			if (this.currentPage == 1) {

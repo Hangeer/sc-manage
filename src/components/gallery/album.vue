@@ -168,6 +168,7 @@
 							 class="form-control" 
 							 v-model="albumInfo.album_cover">
 				</div>
+				<span>相册分类</span>
 				<select class="form-control" 
 						v-model="albumInfo.album_type">
 					<option value="重邮美景">重邮美景</option>
